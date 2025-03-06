@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CodeLine.School | ЛайнКоины</title>
+  <title>CodeLine.School | ЛайнКоины (Compact)</title>
   <style>
-    /* Подключаем Orbitron (футуристический шрифт) */
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
     /* Сбросы и базовые стили */
@@ -16,15 +15,18 @@
     }
     body {
       font-family: 'Orbitron', sans-serif;
-      background-color: #000A44; /* Тёмно-синий фон */
+      background-color: #000A44;  /* Тёмно-синий фон */
       color: #fff;
+
+      /* Делаем блок на всю высоту экрана, чтобы фон заполнял */
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
     }
+    
     /* Первый слой звезд (быстрее) */
     body::before {
       content: '';
@@ -40,7 +42,7 @@
       animation: starScroll 60s linear infinite;
       opacity: 0.3;
     }
-    /* Второй слой звезд (медленнее, чуть прозрачнее) */
+    /* Второй слой звезд (медленнее) */
     body::after {
       content: '';
       position: absolute;
@@ -64,30 +66,32 @@
       100% { transform: translateX(-250px); }
     }
 
+    /* Окно */
     .window {
-      width: 450px;
-      border-radius: 10px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      width: 320px;      /* компактная ширина */
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       overflow: hidden;
       background-color: #fff;
+      z-index: 1;        /* выше фона */
       position: relative;
-      z-index: 1;
     }
+    /* Заголовок окна (macOS style) */
     .title-bar {
       background-color: #eaeaea;
-      height: 34px;
+      height: 28px;
       display: flex;
       align-items: center;
-      padding: 0 10px;
+      padding: 0 8px;
       position: relative;
     }
     .traffic-lights {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
     .light {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
     }
     .red    { background-color: #ff5f57; }
@@ -95,56 +99,57 @@
     .green  { background-color: #28c840; }
     .title-text {
       position: absolute;
-      left: 0; 
-      right: 0;
+      left: 0; right: 0;
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: bold;
       color: #555;
       pointer-events: none;
     }
 
+    /* Содержимое */
     .container {
-      padding: 20px 30px;
+      padding: 15px 20px; 
       background: #fff;
       color: #0f1248;
     }
     .container h1 {
       text-align: left;
-      margin-bottom: 10px;
-      font-size: 24px;
+      margin-bottom: 8px;
+      font-size: 18px;
       color: #0f1248;
       letter-spacing: 1px;
     }
 
     .total {
       display: inline-block;
-      background-color: #CEFB9A;
+      background-color: #CEFB9A; 
       color: #0f1248;
-      padding: 8px 12px;
-      font-size: 18px;
+      padding: 6px 10px;
+      font-size: 14px; 
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       border-radius: 4px;
     }
     .total span {
-      margin-left: 8px;
-      font-size: 22px;
+      margin-left: 6px;
+      font-size: 18px;
     }
 
+    /* Ряды */
     .row {
       display: flex;
       align-items: center;
-      margin: 10px 0;
+      margin: 8px 0;
     }
     .row label {
       flex: 1;
-      font-weight: normal;
+      font-size: 14px; 
     }
     .controls {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px; 
     }
 
     /* Кнопки */
@@ -152,15 +157,14 @@
       background: #fff;
       color: #0f1248;
       border: 2px solid #0f1248;
-      border-radius: 5px;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 12px; 
       font-weight: bold;
-      padding: 5px 12px;
+      padding: 3px 8px; 
       transition: 0.2s;
       position: relative;
     }
-    /* Hover + Active = #8473E5 */
     button:hover {
       background: #8473E5;
       color: #fff;
@@ -172,30 +176,30 @@
       border-color: #8473E5;
       color: #fff;
     }
-    /* Активное состояние (при тумблере) */
+    /* Активная кнопка (тумблер) */
     .active {
       background: #8473E5;
       border-color: #8473E5;
       color: #fff;
-      box-shadow: none; /* Убираем неон */
+      box-shadow: none;
     }
-
     .count {
       min-width: 20px;
       text-align: center;
       display: inline-block;
+      font-size: 14px;
     }
 
-    /* Кнопка сброса - чуть крупнее, с иконкой */
+    /* Кнопка сброса (побольше относительно обычных, но всё равно компакт) */
     .reset {
       background-color: #ff4d4d;
       color: #fff;
       border-color: #ff4d4d;
-      font-size: 16px;
-      padding: 10px 20px;
+      font-size: 14px; 
+      padding: 8px 16px; 
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .reset:hover {
       background-color: #cc0000;
@@ -207,10 +211,9 @@
       border-color: #a30000;
       transform: scale(0.95);
     }
-    /* Иконка внутри кнопки */
     .reset svg {
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       fill: currentColor;
     }
   </style>
@@ -218,6 +221,7 @@
 <body>
 
 <div class="window">
+  <!-- Заголовок macOS -->
   <div class="title-bar">
     <div class="traffic-lights">
       <div class="light red"></div>
@@ -227,11 +231,12 @@
     <div class="title-text">CodeLine.School</div>
   </div>
 
+  <!-- Содержимое -->
   <div class="container">
     <h1>Калькулятор <span style="color: #E16F3C;">ЛайнКоинов</span></h1>
     <div class="total">ИТОГО: <span id="total">0</span></div>
 
-    <!-- Домашнее задание: 10,15,20,20 (тумблер) -->
+    <!-- Домашнее задание: 10,15,20,20 -->
     <div class="row">
       <label>Домашнее задание:</label>
       <div class="controls">
@@ -242,9 +247,9 @@
       </div>
     </div>
 
-    <!-- Самостоятельное задание: +/-5 -->
+    <!-- Самостоятельное: +/-5 -->
     <div class="row">
-      <label>Самостоятельное задание:</label>
+      <label>Самостоят. задание:</label>
       <div class="controls">
         <button onclick="incSelfTask(-1)">-</button>
         <span id="selfTaskCount" class="count">0</span>
@@ -268,7 +273,7 @@
       </div>
     </div>
 
-    <!-- Устное задание: +/-2 -->
+    <!-- Устное: +/-2 -->
     <div class="row">
       <label>Устное задание:</label>
       <div class="controls">
@@ -278,15 +283,15 @@
       </div>
     </div>
 
-    <!-- Помог одногруппнику: (тумблер) +15 -->
+    <!-- Помог: (тумблер) +15 -->
     <div class="row">
-      <label>Помог одногруппнику:</label>
+      <label>Помог одногр.:</label>
       <div class="controls">
         <button data-key="help" data-value="15" onclick="toggleButton(this)">15</button>
       </div>
     </div>
 
-    <!-- Доп. задание: +/-2 -->
+    <!-- Доп: +/-2 -->
     <div class="row">
       <label>Доп. задание:</label>
       <div class="controls">
@@ -329,9 +334,8 @@
     </div>
 
     <!-- Кнопка сброс -->
-    <div class="row" style="margin-top: 20px; justify-content: flex-end;">
+    <div class="row" style="margin-top: 15px; justify-content: flex-end;">
       <button class="reset" onclick="resetAll()">
-        <!-- Иконка корзинки (FontAwesome Trash) -->
         <svg viewBox="0 0 448 512">
           <path d="M135.168 17.048C138.91 6.93 148.246 0 158.995 0h130.01c10.75 0 20.09 6.93 23.83 17.048L317.7 32H432c8.8 
                    0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H416v336c0 26.5-21.5 48-48 48H80c-26.51 0-48-21.5-48-48V96H16
@@ -349,12 +353,10 @@
   /* ====== Состояния и логика ====== */
   let total = 0;
 
-  // Плюс/минус счётчики
-  let selfTaskCount = 0;  // Самостоятельное (+/-5)
-  let oralTaskCount = 0;  // Устное (+/-2)
-  let extraTaskCount = 0; // Доп. (+/-2)
+  let selfTaskCount = 0;  // (+/-5)
+  let oralTaskCount = 0;  // (+/-2)
+  let extraTaskCount = 0; // (+/-2)
 
-  // Тумблеры (одно нажатие включить, второе — выключить)
   let toggles = {
     hw10:    { active: false, value: 10 },
     hw15:    { active: false, value: 15 },
@@ -369,12 +371,9 @@
     install: { active: false, value: 30 }
   };
 
-  // Обновляем цифру «ИТОГО»
   function updateTotal() {
     document.getElementById('total').textContent = total;
   }
-
-  // Прибавить/убавить монеты
   function addCoins(amount) {
     total += amount;
     updateTotal();
@@ -385,11 +384,9 @@
     updateTotal();
   }
 
-  // Тумблер (актив/неактив)
   function toggleButton(btn) {
     const key = btn.getAttribute('data-key');
     const val = Number(btn.getAttribute('data-value'));
-
     if (!toggles[key].active) {
       toggles[key].active = true;
       addCoins(val);
@@ -401,7 +398,6 @@
     }
   }
 
-  // Самостоятельное (+/-5)
   function incSelfTask(delta) {
     if (delta > 0) {
       selfTaskCount++;
@@ -413,7 +409,6 @@
     document.getElementById('selfTaskCount').textContent = selfTaskCount;
   }
 
-  // Устное (+/-2)
   function incOralTask(delta) {
     if (delta > 0) {
       oralTaskCount++;
@@ -425,7 +420,6 @@
     document.getElementById('oralTaskCount').textContent = oralTaskCount;
   }
 
-  // Доп. (+/-2)
   function incExtraTask(delta) {
     if (delta > 0) {
       extraTaskCount++;
@@ -437,19 +431,12 @@
     document.getElementById('extraTaskCount').textContent = extraTaskCount;
   }
 
-  // Сброс
   function resetAll() {
-    total = 0;
-    updateTotal();
+    total = 0; updateTotal();
 
-    selfTaskCount = 0;
-    document.getElementById('selfTaskCount').textContent = '0';
-
-    oralTaskCount = 0;
-    document.getElementById('oralTaskCount').textContent = '0';
-
-    extraTaskCount = 0;
-    document.getElementById('extraTaskCount').textContent = '0';
+    selfTaskCount = 0;  document.getElementById('selfTaskCount').textContent = '0';
+    oralTaskCount = 0;  document.getElementById('oralTaskCount').textContent = '0';
+    extraTaskCount = 0; document.getElementById('extraTaskCount').textContent = '0';
 
     for (let key in toggles) {
       toggles[key].active = false;
