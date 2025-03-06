@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeLine.School | ЛайнКоины</title>
+  <style>
+    /* Подключаем Orbitron (футуристический шрифт) */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+    /* Сбросы и базовые стили */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #000A44; /* Тёмно-синий фон */
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Первый слой звезд (быстрее) */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%;
+      pointer-events: none;
+      background: url('data:image/svg+xml;utf8,<svg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><circle fill=\"white\" cx=\"1\" cy=\"1\" r=\"1\"/><circle fill=\"white\" cx=\"10\" cy=\"40\" r=\"1\"/><circle fill=\"white\" cx=\"99\" cy=\"50\" r=\"1\"/><circle fill=\"white\" cx=\"20\" cy=\"80\" r=\"1\"/><circle fill=\"white\" cx=\"70\" cy=\"10\" r=\"1\"/><circle fill=\"white\" cx=\"50\" cy=\"60\" r=\"1\"/></svg>')
+                  repeat;
+      background-size: 200px 200px;
+      animation: starScroll 60s linear infinite;
+      opacity: 0.3;
+    }
+    /* Второй слой звезд (медленнее, чуть прозрачнее) */
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%;
+      pointer-events: none;
+      background: url('data:image/svg+xml;utf8,<svg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><circle fill=\"white\" cx=\"2\" cy=\"2\" r=\"1\"/><circle fill=\"white\" cx=\"25\" cy=\"35\" r=\"1\"/><circle fill=\"white\" cx=\"75\" cy=\"70\" r=\"1\"/><circle fill=\"white\" cx=\"99\" cy=\"90\" r=\"1\"/><circle fill=\"white\" cx=\"55\" cy=\"10\" r=\"1\"/><circle fill=\"white\" cx=\"40\" cy=\"50\" r=\"1\"/></svg>')
+                  repeat;
+      background-size: 250px 250px;
+      animation: starScroll2 90s linear infinite;
+      opacity: 0.2;
+    }
+    @keyframes starScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-200px); }
+    }
+    @keyframes starScroll2 {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-250px); }
+    }
+
+    .window {
+      width: 450px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      overflow: hidden;
+      background-color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+    .title-bar {
+      background-color: #eaeaea;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      position: relative;
+    }
+    .traffic-lights {
+      display: flex;
+      gap: 8px;
+    }
+    .light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .red    { background-color: #ff5f57; }
+    .yellow { background-color: #ffbd2e; }
+    .green  { background-color: #28c840; }
+    .title-text {
+      position: absolute;
+      left: 0; 
+      right: 0;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: #555;
+      pointer-events: none;
+    }
+
+    .container {
+      padding: 20px 30px;
+      background: #fff;
+      color: #0f1248;
+    }
+    .container h1 {
+      text-align: left;
+      margin-bottom: 10px;
+      font-size: 24px;
+      color: #0f1248;
+      letter-spacing: 1px;
+    }
+
+    .total {
+      display: inline-block;
+      background-color: #CEFB9A;
+      color: #0f1248;
+      padding: 8px 12px;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+    .total span {
+      margin-left: 8px;
+      font-size: 22px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .row label {
+      flex: 1;
+      font-weight: normal;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Кнопки */
+    button {
+      background: #fff;
+      color: #0f1248;
+      border: 2px solid #0f1248;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 5px 12px;
+      transition: 0.2s;
+      position: relative;
+    }
+    /* Hover + Active = #8473E5 */
+    button:hover {
+      background: #8473E5;
+      color: #fff;
+      border-color: #8473E5;
+    }
+    button:active {
+      transform: scale(0.95);
+      background: #8473E5;
+      border-color: #8473E5;
+      color: #fff;
+    }
+    /* Активное состояние (при тумблере) */
+    .active {
+      background: #8473E5;
+      border-color: #8473E5;
+      color: #fff;
+      box-shadow: none; /* Убираем неон */
+    }
+
+    .count {
+      min-width: 20px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    /* Кнопка сброса - чуть крупнее, с иконкой */
+    .reset {
+      background-color: #ff4d4d;
+      color: #fff;
+      border-color: #ff4d4d;
+      font-size: 16px;
+      padding: 10px 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reset:hover {
+      background-color: #cc0000;
+      border-color: #cc0000;
+      color: #fff;
+    }
+    .reset:active {
+      background-color: #a30000;
+      border-color: #a30000;
+      transform: scale(0.95);
+    }
+    /* Иконка внутри кнопки */
+    .reset svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+  </style>
+</head>
+<body>
+
+<div class="window">
+  <div class="title-bar">
+    <div class="traffic-lights">
+      <div class="light red"></div>
+      <div class="light yellow"></div>
+      <div class="light green"></div>
+    </div>
+    <div class="title-text">CodeLine.School</div>
+  </div>
+
+  <div class="container">
+    <h1>Калькулятор <span style="color: #E16F3C;">ЛайнКоинов</span></h1>
+    <div class="total">ИТОГО: <span id="total">0</span></div>
+
+    <!-- Домашнее задание: 10,15,20,20 (тумблер) -->
+    <div class="row">
+      <label>Домашнее задание:</label>
+      <div class="controls">
+        <button data-key="hw10" data-value="10" onclick="toggleButton(this)">10</button>
+        <button data-key="hw15" data-value="15" onclick="toggleButton(this)">15</button>
+        <button data-key="hw20a" data-value="20" onclick="toggleButton(this)">20</button>
+        <button data-key="hw20b" data-value="20" onclick="toggleButton(this)">20</button>
+      </div>
+    </div>
+
+    <!-- Самостоятельное задание: +/-5 -->
+    <div class="row">
+      <label>Самостоятельное задание:</label>
+      <div class="controls">
+        <button onclick="incSelfTask(-1)">-</button>
+        <span id="selfTaskCount" class="count">0</span>
+        <button onclick="incSelfTask(+1)">+</button>
+      </div>
+    </div>
+
+    <!-- Пришел на занятие: (тумблер) +3 -->
+    <div class="row">
+      <label>Пришел на занятие:</label>
+      <div class="controls">
+        <button data-key="attend" data-value="3" onclick="toggleButton(this)">3</button>
+      </div>
+    </div>
+
+    <!-- Активно участвовал: (тумблер) +5 -->
+    <div class="row">
+      <label>Активно участвовал:</label>
+      <div class="controls">
+        <button data-key="active" data-value="5" onclick="toggleButton(this)">5</button>
+      </div>
+    </div>
+
+    <!-- Устное задание: +/-2 -->
+    <div class="row">
+      <label>Устное задание:</label>
+      <div class="controls">
+        <button onclick="incOralTask(-1)">-</button>
+        <span id="oralTaskCount" class="count">0</span>
+        <button onclick="incOralTask(+1)">+</button>
+      </div>
+    </div>
+
+    <!-- Помог одногруппнику: (тумблер) +15 -->
+    <div class="row">
+      <label>Помог одногруппнику:</label>
+      <div class="controls">
+        <button data-key="help" data-value="15" onclick="toggleButton(this)">15</button>
+      </div>
+    </div>
+
+    <!-- Доп. задание: +/-2 -->
+    <div class="row">
+      <label>Доп. задание:</label>
+      <div class="controls">
+        <button onclick="incExtraTask(-1)">-</button>
+        <span id="extraTaskCount" class="count">0</span>
+        <button onclick="incExtraTask(+1)">+</button>
+      </div>
+    </div>
+
+    <!-- Викторина: (тумблер) +15 -->
+    <div class="row">
+      <label>Викторина:</label>
+      <div class="controls">
+        <button data-key="quiz" data-value="15" onclick="toggleButton(this)">15</button>
+      </div>
+    </div>
+
+    <!-- Тест 5 из 5: (тумблер) +15 -->
+    <div class="row">
+      <label>Тест 5 из 5:</label>
+      <div class="controls">
+        <button data-key="test5" data-value="15" onclick="toggleButton(this)">15</button>
+      </div>
+    </div>
+
+    <!-- НПУ: (тумблер) +25 -->
+    <div class="row">
+      <label>НПУ:</label>
+      <div class="controls">
+        <button data-key="npu" data-value="25" onclick="toggleButton(this)">25</button>
+      </div>
+    </div>
+
+    <!-- Установил ПО: (тумблер) +30 -->
+    <div class="row">
+      <label>Установил ПО:</label>
+      <div class="controls">
+        <button data-key="install" data-value="30" onclick="toggleButton(this)">30</button>
+      </div>
+    </div>
+
+    <!-- Кнопка сброс -->
+    <div class="row" style="margin-top: 20px; justify-content: flex-end;">
+      <button class="reset" onclick="resetAll()">
+        <!-- Иконка корзинки (FontAwesome Trash) -->
+        <svg viewBox="0 0 448 512">
+          <path d="M135.168 17.048C138.91 6.93 148.246 0 158.995 0h130.01c10.75 0 20.09 6.93 23.83 17.048L317.7 32H432c8.8 
+                   0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H416v336c0 26.5-21.5 48-48 48H80c-26.51 0-48-21.5-48-48V96H16
+                   c-8.8 0-16-7.2-16-16V48c0-8.8 7.2-16 16-16h114.3l4.868-14.952zM208 208c0-13.3-10.7-24-24-24s-24 10.7-24
+                   24v208c0 13.3 10.7 24 24 24s24-10.7 24-24V208zm80 0c0-13.3-10.7-24-24-24s-24 10.7-24 24v208c0 13.3
+                   10.7 24 24 24s24-10.7 24-24V208z"/>
+        </svg>
+        Сбросить
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ====== Состояния и логика ====== */
+  let total = 0;
+
+  // Плюс/минус счётчики
+  let selfTaskCount = 0;  // Самостоятельное (+/-5)
+  let oralTaskCount = 0;  // Устное (+/-2)
+  let extraTaskCount = 0; // Доп. (+/-2)
+
+  // Тумблеры (одно нажатие включить, второе — выключить)
+  let toggles = {
+    hw10:    { active: false, value: 10 },
+    hw15:    { active: false, value: 15 },
+    hw20a:   { active: false, value: 20 },
+    hw20b:   { active: false, value: 20 },
+    attend:  { active: false, value: 3 },
+    active:  { active: false, value: 5 },
+    help:    { active: false, value: 15 },
+    quiz:    { active: false, value: 15 },
+    test5:   { active: false, value: 15 },
+    npu:     { active: false, value: 25 },
+    install: { active: false, value: 30 }
+  };
+
+  // Обновляем цифру «ИТОГО»
+  function updateTotal() {
+    document.getElementById('total').textContent = total;
+  }
+
+  // Прибавить/убавить монеты
+  function addCoins(amount) {
+    total += amount;
+    updateTotal();
+  }
+  function subCoins(amount) {
+    total -= amount;
+    if (total < 0) total = 0;
+    updateTotal();
+  }
+
+  // Тумблер (актив/неактив)
+  function toggleButton(btn) {
+    const key = btn.getAttribute('data-key');
+    const val = Number(btn.getAttribute('data-value'));
+
+    if (!toggles[key].active) {
+      toggles[key].active = true;
+      addCoins(val);
+      btn.classList.add('active');
+    } else {
+      toggles[key].active = false;
+      subCoins(val);
+      btn.classList.remove('active');
+    }
+  }
+
+  // Самостоятельное (+/-5)
+  function incSelfTask(delta) {
+    if (delta > 0) {
+      selfTaskCount++;
+      addCoins(5);
+    } else if (selfTaskCount > 0) {
+      selfTaskCount--;
+      subCoins(5);
+    }
+    document.getElementById('selfTaskCount').textContent = selfTaskCount;
+  }
+
+  // Устное (+/-2)
+  function incOralTask(delta) {
+    if (delta > 0) {
+      oralTaskCount++;
+      addCoins(2);
+    } else if (oralTaskCount > 0) {
+      oralTaskCount--;
+      subCoins(2);
+    }
+    document.getElementById('oralTaskCount').textContent = oralTaskCount;
+  }
+
+  // Доп. (+/-2)
+  function incExtraTask(delta) {
+    if (delta > 0) {
+      extraTaskCount++;
+      addCoins(2);
+    } else if (extraTaskCount > 0) {
+      extraTaskCount--;
+      subCoins(2);
+    }
+    document.getElementById('extraTaskCount').textContent = extraTaskCount;
+  }
+
+  // Сброс
+  function resetAll() {
+    total = 0;
+    updateTotal();
+
+    selfTaskCount = 0;
+    document.getElementById('selfTaskCount').textContent = '0';
+
+    oralTaskCount = 0;
+    document.getElementById('oralTaskCount').textContent = '0';
+
+    extraTaskCount = 0;
+    document.getElementById('extraTaskCount').textContent = '0';
+
+    for (let key in toggles) {
+      toggles[key].active = false;
+    }
+    document.querySelectorAll('button[data-key]').forEach(b => b.classList.remove('active'));
+  }
+</script>
+</body>
+</html>
